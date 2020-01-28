@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.db import IntegrityError
-from .forms import UserRegistrationForm
+from django.contrib.auth import authenticate, login, logout
+from .forms import UserRegistrationForm, SignInForm
 
 
 def registration(request):
@@ -19,4 +20,20 @@ def registration(request):
 
 
 def sign_in(request):
-    return render(request, 'login.html', {})
+    form = SignInForm()
+    if request.method == 'POST':
+        form = SignInForm(request.POST)
+        if form.is_valid():
+            user = authenticate(request, username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            if user is not None:
+                login(request, user)
+                messages.add_message(request, messages.INFO, "You are logged in")
+                return redirect(reverse('main:index'))
+        messages.add_message(request, messages.INFO, "Invalid password or username")
+    return render(request, 'login.html', {'form': form})
+
+
+def logout_(request):
+    logout(request)
+    messages.add_message(request, messages.INFO, "You are logged out")
+    return redirect(reverse('main:index'))
