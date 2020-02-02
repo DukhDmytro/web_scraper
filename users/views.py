@@ -28,7 +28,7 @@ def sign_in(request):
             if user is not None:
                 login(request, user)
                 messages.add_message(request, messages.INFO, "You are logged in")
-                return redirect(reverse('main:index'))
+                return redirect(reverse('scraper:index'))
         messages.add_message(request, messages.INFO, "Invalid password or username")
     return render(request, 'login.html', {'form': form})
 
@@ -36,4 +36,4 @@ def sign_in(request):
 def logout_(request):
     logout(request)
     messages.add_message(request, messages.INFO, "You are logged out")
-    return redirect(reverse('main:index'))
+    return redirect(reverse('scraper:index'))

@@ -1,6 +1,6 @@
 import scrapy
 from scrapy_app import items
-from main.models import WebSites
+from scraper.models import WebSites
 
 
 class DjinniSpider(scrapy.Spider):
@@ -26,7 +26,7 @@ class DjinniSpider(scrapy.Spider):
             yield response.follow(href, self.parse)
 
     def parse_vacancy(self, response):
-        item = items.ProductItem()
+        item = items.VacancyItem()
         item['title'] = response.css('h1::text').get()
         item['summary'] = response.css('p.profile::text').getall()
         item['description'] = response.css('div.profile-page-section::text').getall()

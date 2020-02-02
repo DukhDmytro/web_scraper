@@ -6,8 +6,8 @@
 # https://docs.scrapy.org/en/latest/topics/items.html
 #
 from scrapy_djangoitem import DjangoItem
-from main.models import Vacancies
+from scraper.models import Vacancies
 
 
-class ProductItem(DjangoItem):
+class VacancyItem(DjangoItem):
     django_model = Vacancies

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Web Scraper {% endblock %}
+{% block content %}
+ {%for p in products%}
+    <h2>{{p.title}}</h2>
+    {% if p.summary %}
+    <h3>Summary</h3>
+    <p>{{p.summary}}</p>
+    {%endif%}
+    <h4>Vacancy link</h4>
+    <a href="{{p.url}}">{{p.url}}</a>
+    <h3>Job description</h3>
+    <p>{{p.description}}</p>
+    {% if p.web_site %}
+    {{p.experience}}
+    <h3>Company Website</h3>
+    <a href="{{p.web_site}}">{{p.web_site}}</a>
+    {% endif %}
+    {{p.info}}
+    <a href="{{p.jobs_web_site.jobs_web_site}}">{{p.jobs_web_site.jobs_web_site}}</a>
+    <br>
+    <br>
+    {%endfor%}
+{% endblock %}

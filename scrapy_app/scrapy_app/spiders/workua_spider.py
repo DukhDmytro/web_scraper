@@ -1,6 +1,7 @@
 import scrapy
 from scrapy_app import items
-from main.models import WebSites
+from scraper.models import WebSites
+
 
 class WorkSpider(scrapy.Spider):
     name = "workua_spider"
@@ -25,7 +26,7 @@ class WorkSpider(scrapy.Spider):
             yield response.follow(href, self.parse)
 
     def parse_vacancy(self, response):
-        item = items.ProductItem()
+        item = items.VacancyItem()
         item['title'] = response.css('h1#h1-name::text').get()
         item['summary'] = []
         item['description'] = response.css('div#job-description *::text').getall()
