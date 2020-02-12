@@ -1,2 +1,2 @@
 # web_scraper
-Web scraper for discounts in supermarkets
+Web scraper for vacancies
