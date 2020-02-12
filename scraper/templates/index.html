@@ -1,24 +1,28 @@
 {% extends 'base.html' %}
 {% block title %}Web Scraper {% endblock %}
 {% block content %}
- {%for p in products%}
-    <h2>{{p.title}}</h2>
-    {% if p.summary %}
-    <h3>Summary</h3>
-    <p>{{p.summary}}</p>
-    {%endif%}
-    <h4>Vacancy link</h4>
-    <a href="{{p.url}}">{{p.url}}</a>
-    <h3>Job description</h3>
-    <p>{{p.description}}</p>
-    {% if p.web_site %}
-    {{p.experience}}
-    <h3>Company Website</h3>
-    <a href="{{p.web_site}}">{{p.web_site}}</a>
-    {% endif %}
-    {{p.info}}
-    <a href="{{p.jobs_web_site.jobs_web_site}}">{{p.jobs_web_site.jobs_web_site}}</a>
+<ul class="list-group">
+{% for vacancy in vacancies %}
+    <li class="list-group-item">
+    <div class="text-center">
+        <h2 >{{vacancy.title}}</h2>
+        <h4>Vacancy link</h4>
+        <a href="{{vacancy.url}}">{{vacancy.url}}</a> from <a href="{{vacancy.jobs_web_site.jobs_web_site}}">{{vacancy.jobs_web_site.jobs_web_site}}</a>
+        <h3 class="text-center">Job description</h3>
+    </div>
+        {% for row in vacancy.description %}
+        {{row}}<br>
+        {%endfor%}
     <br>
-    <br>
+    <div class="text-center">
+        {% if vacancy.company_web_site %}
+        <h3>Company Website</h3>
+        <a href="{{vacancy.company_web_site}}">{{vacancy.company_web_site}}</a>
+        {% endif %}
+        <h4>Info</h4>
+        {{vacancy.job_info}}<br>
+    </div>
+    </li>
     {%endfor%}
+</ul>
 {% endblock %}
