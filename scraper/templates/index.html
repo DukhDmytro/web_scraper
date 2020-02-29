@@ -2,7 +2,7 @@
 {% block title %}Web Scraper {% endblock %}
 {% block content %}
 <ul class="list-group">
-{% for vacancy in vacancies %}
+{% for vacancy in vacancies.object_list %}
     <li class="list-group-item">
     <div class="text-center">
         <h2 >{{vacancy.title}}</h2>

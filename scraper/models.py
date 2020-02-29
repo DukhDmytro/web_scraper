@@ -1,5 +1,6 @@
 import json
 from django.db import models
+from django.core.paginator import Paginator
 
 
 class WebSites(models.Model):
@@ -9,14 +10,6 @@ class WebSites(models.Model):
         return self.jobs_web_site
 
 
-class VacanciesManager(models.Manager):
-    def get_vacancies(self):
-        vacancies = super().get_queryset()
-        for vacancy in vacancies:
-            vacancy.description = json.loads(vacancy.description)
-        return vacancies
-
-
 class Vacancies(models.Model):
     title = models.CharField(max_length=300, null=True)
     url = models.URLField(max_length=200, null=True)
@@ -24,11 +17,6 @@ class Vacancies(models.Model):
     company_web_site = models.URLField(max_length=200, null=True)
     job_info = models.CharField(max_length=500, null=True)
     jobs_web_site = models.ForeignKey(WebSites, on_delete=models.CASCADE, default='')
-
-    objects = VacanciesManager()
-
-    def __str__(self):
-        return self.title
 
 
 class Selectors(models.Model):
@@ -43,3 +31,16 @@ class Selectors(models.Model):
 
     def __str__(self):
         return f'Selectors for {self.jobs_web_site}'
+
+
+class MyPaginator(Paginator):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def my_get_page(self, *args, **kwargs):
+        page = super().get_page(*args, **kwargs)
+        for vacancy in page:
+            vacancy.description = json.loads(vacancy.description)
+        return page
+
+
