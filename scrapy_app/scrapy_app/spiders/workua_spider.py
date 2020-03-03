@@ -1,5 +1,6 @@
 import scrapy
-from scrapy_app import items
+import json
+from scrapy_app.scrapy_app import items
 from scraper.models import WebSites, Selectors
 
 class WorkSpider(scrapy.Spider):
@@ -42,3 +43,10 @@ class WorkSpider(scrapy.Spider):
         item['job_info'] = response.css(self.selectors['job_info']).getall()[-1] + response.css(self.selectors['experience']).get()
         item['jobs_web_site'] = self.jobs_web_site
         yield item
+        item['description'] = json.dumps(item['description'])
+        if item['company_web_site']:
+            item['company_web_site'] = item['company_web_site'][-1]
+        else:
+            item['company_web_site'] = ''
+        item['job_info'] = ''.join(item['job_info'])
+        item.save()

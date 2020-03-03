@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'crispy_forms',
     'scraper.apps.MainConfig',
+    'scrapy_app',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+ITEMS_PER_PAGE = 6

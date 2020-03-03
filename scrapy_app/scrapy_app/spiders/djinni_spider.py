@@ -1,6 +1,7 @@
 import scrapy
-from scrapy_app import items
+from scrapy_app.scrapy_app import items
 from scraper.models import WebSites, Selectors
+import json
 
 
 class DjinniSpider(scrapy.Spider):
@@ -43,3 +44,14 @@ class DjinniSpider(scrapy.Spider):
         item['job_info'] = response.css(self.selectors['job_info']).getall() + [response.css(self.selectors['experience']).get()]
         item['jobs_web_site'] = self.jobs_web_site
         yield item
+        if self.name == 'djinni_spider':
+            for i, el in enumerate(item['description']):
+                if "Сайт компанії" in el:
+                    item['description'] = item['description'][:i]
+        item['description'] = json.dumps(item['description'])
+        if item['company_web_site']:
+            item['company_web_site'] = item['company_web_site'][-1]
+        else:
+            item['company_web_site'] = ''
+        item['job_info'] = ''.join(item['job_info'])
+        item.save()

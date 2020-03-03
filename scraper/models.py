@@ -1,6 +1,4 @@
-import json
 from django.db import models
-from django.core.paginator import Paginator
 
 
 class WebSites(models.Model):
@@ -31,16 +29,3 @@ class Selectors(models.Model):
 
     def __str__(self):
         return f'Selectors for {self.jobs_web_site}'
-
-
-class MyPaginator(Paginator):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def my_get_page(self, *args, **kwargs):
-        page = super().get_page(*args, **kwargs)
-        for vacancy in page:
-            vacancy.description = json.loads(vacancy.description)
-        return page
-
-
