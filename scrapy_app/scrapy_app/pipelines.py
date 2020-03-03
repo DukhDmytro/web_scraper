@@ -11,7 +11,6 @@ import json
 
 class VacancyPipeline(DjangoItem):
     def process_item(self, item, spider):
-        print("###############")
         if spider.name == 'djinni_spider':
             for i, el in enumerate(item['description']):
                 if "Сайт компанії" in el:
