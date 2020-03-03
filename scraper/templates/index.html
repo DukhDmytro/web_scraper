@@ -1,6 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}Web Scraper {% endblock %}
 {% block content %}
+<div>
+    <form action="/scraper/start_crawler/" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Start Crawler</button>
+    <input type="hidden" name="msg" value="Please reload the page">
+    </form>
+</div>
+{% if msg %}
+    {{msg}}
+{% else %}
+<div>
+    {% include 'pagination.html' %}
+</div>
+{%endif%}
 <ul class="list-group">
 {% for vacancy in vacancies.object_list %}
     <li class="list-group-item">
@@ -25,4 +39,9 @@
     </li>
     {%endfor%}
 </ul>
+{% if not msg %}
+<div>
+    {% include 'pagination.html' %}
+</div>
+{%endif%}
 {% endblock %}

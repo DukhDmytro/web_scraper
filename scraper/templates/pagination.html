@@ -1,0 +1,13 @@
+<div class="text-center">
+    <span class="step-links">
+        <a href="?p=1">&lt;&lt;</a>
+    {% if vacancies.has_previous %}
+    <a href="?p={{vacancies.previous_page_number}}">&lt;</a>
+    {% endif %}
+    {{vacancies}}
+    {% if vacancies.has_next %}
+    <a href="?p={{vacancies.next_page_number}}">&gt;</a>
+    {% endif %}
+    <a href="?p={{last_page}}">&gt;&gt;</a>
+    </span>
+</div>
