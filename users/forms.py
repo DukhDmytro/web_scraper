@@ -1,13 +1,15 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
+
+User = get_user_model()
 
 
 class UserRegistrationForm(UserCreationForm):
+    username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Username'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'email@example.org'}))
     first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Name'}), required=False)
     last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Surname'}), required=False)
-    username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Unique username'}))
 
     class Meta:
         model = User
@@ -15,5 +17,5 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class SignInForm(forms.Form):
-    username = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'placeholder': 'Unique username'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'example@mail.com'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
