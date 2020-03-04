@@ -3,7 +3,7 @@ from django.http import HttpResponseNotFound
 from django.contrib import messages
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout
-from django.core.mail import send_mail
+from web_scraper import task
 from .models import User
 from .forms import UserRegistrationForm, SignInForm
 
@@ -26,14 +26,7 @@ def registration(request):
             try:
                 form.save()
                 messages.add_message(request, messages.INFO, "Please verify registration on your email")
-                send_mail(
-                    'Verify your account',
-                    'Follow this link to verify your account: '
-                    'http://localhost:8000%s' % reverse('users:verify', kwargs={'username': form.cleaned_data['username']}),
-                    'from@me.dev',
-                    [form.cleaned_data['email']],
-                    fail_silently=False,
-                )
+                task.send_email_task.delay(form.cleaned_data['username'], form.cleaned_data['email'])
                 return redirect(reverse('users:sign_in'))
             except IntegrityError:
                 messages.add_message(request, messages.INFO, "Email already registered")
