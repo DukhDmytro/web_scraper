@@ -8,8 +8,6 @@ User = get_user_model()
 class UserRegistrationForm(UserCreationForm):
     username = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Username'}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'email@example.org'}))
-    first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Name'}), required=False)
-    last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Surname'}), required=False)
 
     class Meta:
         model = User
