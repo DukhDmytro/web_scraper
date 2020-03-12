@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from celery.schedules import crontab
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -142,3 +143,11 @@ EMAIL_PORT = 587
 CELERY_BROKER_URL = 'Your broker settings'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'Europe/Kiev'
+
+CELERY_BEAT_SCHEDULE = {
+    'task_periodical_scraping': {
+        'task': 'web_scraper.task.task_periodical_scraping',
+        'schedule': crontab(minute=51, hour=9),
+    },
+}

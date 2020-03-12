@@ -3,6 +3,8 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from django.core.mail import send_mail
 from django.shortcuts import reverse
+from scraper.models import Vacancies
+import spiders
 
 
 @shared_task
@@ -21,3 +23,9 @@ def send_email_task(username, email):
         [email],
         fail_silently=False,
     )
+
+
+@shared_task
+def task_periodical_scraping():
+    Vacancies.objects.all().delete()
+    spiders.start_spiders()
